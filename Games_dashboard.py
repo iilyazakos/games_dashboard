@@ -10,18 +10,6 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Rank - Рейтинг общих продаж
-# Name  - Название игр
-# Platform  - Платформа выпуска игр (т. е. ПК,PS4 и т.д.)
-# Year  - Год выпуска игры
-# Genre  - Жанр игры
-# Publisher  - Издатель игры
-# NA_Sales - Продажи в Северной Америке (в миллионах)
-# EU_Sales - Продажи в Европе (в миллионах)
-# JP_Sales - Продажи в Японии (в миллионах)
-# Other_Sales - Продажи в остальном мире (в миллионах)
-# Global_Sales - Общий объем продаж по всему миру.
-
 _game = pd.read_csv("https://github.com/iilyazakos/games_dashboard/blob/main/game_sales.csv?raw=true")
 games = _game[['Rank', 'Name', 'Platform', 'Year',
                   'Genre', 'Publisher', 'NA_Sales', 'EU_Sales',
