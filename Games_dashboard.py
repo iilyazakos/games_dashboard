@@ -62,7 +62,7 @@ with st.container() as row_game_platform:
     fig_game_platform = go.Figure()
     fig_game_platform = px.bar(game_platform, x = 'Platform', y = 'Number of games', title = 'Games on platforms')
 
-    st.plotly_chart(fig_game_platform, use_container_width=True)
+    st.plotly_chart(fig_game_platform, use_container_width = True)
 
 
 # _________________________________________________________
@@ -74,4 +74,20 @@ with st.container() as row_game_platform:
     fig_max_public = go.Figure()
     fig_max_public = px.line(game_max_public, x = 'Global sales', y = 'Publisher', title = 'Which Publisher has the biggest sales')
 
-    st.plotly_chart(fig_max_public, use_container_width=True)
+    st.plotly_chart(fig_max_public, use_container_width = True)
+
+
+# _________________________________________________________
+# В каком жанре выпускалось больше всего игр
+with st.container() as row_genre_max_produced:
+    game_genre_max_produced = games[['Name', 'Genre']]
+    game_genre_max_produced = (game_genre_max_produced.groupby(['Genre'])['Name'].count()).reset_index()
+    game_genre_max_produced.columns = ['Number of games', 'Genre']
+
+    fig_genre_max_produced = go.Figure()
+    fig_genre_max_produced = px.bar(game_genre_max_produced, x = 'Genre', y = 'Number of games',
+                                    labels={'Genre':'Number of games',
+                                            'Number of games':'Genre'},
+                                    title = 'Which genre produced the most games')
+
+    st.plotly_chart(fig_genre_max_produced, use_container_width = True)
