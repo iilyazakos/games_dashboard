@@ -2,8 +2,6 @@
 streamlit Games dashboard
 '''
 
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -12,8 +10,8 @@ import plotly.graph_objects as go
 
 _game = pd.read_csv("https://github.com/iilyazakos/games_dashboard/blob/main/game_sales.csv?raw=true")
 games = _game[['Rank', 'Name', 'Platform', 'Year',
-                  'Genre', 'Publisher', 'NA_Sales', 'EU_Sales',
-                  'JP_Sales','Other_Sales','Global_Sales']].replace([np.nan, np.inf], 0)
+               'Genre', 'Publisher', 'NA_Sales', 'EU_Sales',
+               'JP_Sales', 'Other_Sales', 'Global_Sales']].replace([np.nan, np.inf], 0)
 
 # Удаляем нулевые значения по столбцу 'Year', делаем его целочисленным для удобства
 # Удаляем нулевые значения по столбцу 'Publisher'
@@ -28,11 +26,13 @@ games['Year'] = games['Year'].astype('int64')
 # _________________________________________________________
 # В какой год выходило больше всего игр
 
-with st.container() as row_game_year_max:
+with st.container() as row_game_year:
+    col_avg, col_count = st.columns([3, 3])
+
     game_year_max = games[['Year', 'Name']]
     game_year_max = (game_year_max.groupby(['Year'])['Name'].count()).reset_index()
-    game_year_max.drop(game_year_max[game_year_max['Year'] == 2020].index, inplace = True)
-    game_year_max.drop(game_year_max[game_year_max['Year'] == 2017].index, inplace = True)
+    # game_year_max.drop(game_year_max[game_year_max['Year'] == 2020].index, inplace = True)
+    # game_year_max.drop(game_year_max[game_year_max['Year'] == 2017].index, inplace = True)
     game_year_max.columns = ['Year', 'Number of games']
 
     fig_line_year_max = go.Figure()
