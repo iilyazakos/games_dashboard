@@ -19,20 +19,21 @@ select_platform = st.multiselect('select platforms', games['Platform'].unique(),
 data_for_fig = pd.DataFrame({'platforms': select_platform})
 dynamics_Global_Sales_year = dynamics_Global_Sales_year[dynamics_Global_Sales_year['Platform'].isin(select_platform)]
 dynamics_Global_Sales_year = (dynamics_Global_Sales_year.groupby(['Year', 'Platform'])['Global_Sales'].sum()).reset_index()
+dynamics_Global_Sales_year.columns = ['Platform', 'Years', 'Global Sales in millions of dollars']
 
 type_fig = st.radio('choose the type of chart',
                     ('Line', 'Bar', 'Dots (scatter)', 'dots with line', 'dots with different sizes'))
 
 
-if type_fig == 'Line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Year', y = 'Global_Sales', color = 'Platform'), use_container_width = True)
+if type_fig == 'Line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
 
-if type_fig == 'Bar': st.plotly_chart(px.bar(dynamics_Global_Sales_year, x = 'Year', y = 'Global_Sales', color = 'Platform'), use_container_width = True)
+if type_fig == 'Bar': st.plotly_chart(px.bar(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
 
-if type_fig == 'Dots (scatter)': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Year', y = 'Global_Sales', color = 'Platform'), use_container_width = True)
+if type_fig == 'Dots (scatter)': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
 
-if type_fig == 'dots with line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Year', y = 'Global_Sales', color = 'Platform', markers = True), use_container_width = True)
+if type_fig == 'dots with line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform', markers = True), use_container_width = True)
 
-if type_fig == 'dots with different sizes': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Year', y = 'Global_Sales', color = 'Platform', size = 'Global_Sales'), use_container_width = True)
+if type_fig == 'dots with different sizes': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform', size = 'Global Sales in millions of dollars'), use_container_width = True)
 
 
 
