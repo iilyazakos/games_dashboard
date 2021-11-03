@@ -19,7 +19,7 @@ select_platform = st.multiselect('select platforms', games['Platform'].unique(),
 data_for_fig = pd.DataFrame({'platforms': select_platform})
 dynamics_Global_Sales_year = dynamics_Global_Sales_year[dynamics_Global_Sales_year['Platform'].isin(select_platform)]
 dynamics_Global_Sales_year = (dynamics_Global_Sales_year.groupby(['Year', 'Platform'])['Global_Sales'].sum()).reset_index()
-dynamics_Global_Sales_year.columns = ['Platform', 'Years', 'Global Sales in millions of dollars']
+dynamics_Global_Sales_year.columns = ['Years', 'Platform', 'Global Sales in millions of dollars']
 
 type_fig = st.radio('choose the type of chart',
                     ('Line', 'Bar', 'Dots (scatter)', 'dots with line', 'dots with different sizes'))
