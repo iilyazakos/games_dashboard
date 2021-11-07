@@ -9,31 +9,25 @@ games = _game[['Rank', 'Name', 'Platform', 'Year',
                   'Genre', 'Publisher', 'NA_Sales', 'EU_Sales',
                   'JP_Sales','Other_Sales','Global_Sales']].replace([np.nan, np.inf], 0)
 
-games.drop(games[games['Year'] == 0.0].index, inplace = True)
-games.drop(games[games['Publisher'] == 0].index, inplace = True)
-games['Year'] = games['Year'].astype('int64')
 
 st.set_page_config(layout = "wide")
-dynamics_Global_Sales_year = games[['Platform', 'Year', 'Global_Sales']]
-select_platform = st.multiselect('select platforms', games['Platform'].unique(), 'GB')
-data_for_fig = pd.DataFrame({'platforms': select_platform})
-dynamics_Global_Sales_year = dynamics_Global_Sales_year[dynamics_Global_Sales_year['Platform'].isin(select_platform)]
-dynamics_Global_Sales_year = (dynamics_Global_Sales_year.groupby(['Year', 'Platform'])['Global_Sales'].sum()).reset_index()
-dynamics_Global_Sales_year.columns = ['Years', 'Platform', 'Global Sales in millions of dollars']
+data_different_sales = games[['Genre', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales']]
+data_different_sales = (data_different_sales.groupby(['Genre'])['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales'].sum()).reset_index()
+data_different_sales.columns = ['Genre', 'Sales in north america in millions', 'Sales in europe in millions', 'Sales in Japan in millions', 'Other sales in millions', 'All sales worldwide in millions']
 
-type_fig = st.radio('choose the type of chart',
-                    ('Line', 'Bar', 'Dots (scatter)', 'dots with line', 'dots with different sizes'))
+type_of_sales = st.radio('Select sales region',
+                    ('Sales in north america in millions', 'Sales in europe in millions', 'Sales in Japan in millions', 'Other sales in millions', 'All sales worldwide in millions'))
 
 
-if type_fig == 'Line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
+if type_of_sales == 'Sales in north america in millions': st.plotly_chart(px.bar(data_different_sales, x = 'Genre', y = 'Sales in north america in millions'), use_container_width = True)
 
-if type_fig == 'Bar': st.plotly_chart(px.bar(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
+if type_of_sales == 'Sales in europe in millions': st.plotly_chart(px.bar(data_different_sales, x = 'Genre', y = 'Sales in europe in millions'), use_container_width = True)
 
-if type_fig == 'Dots (scatter)': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform'), use_container_width = True)
+if type_of_sales == 'Sales in Japan in millions': st.plotly_chart(px.bar(data_different_sales, x = 'Genre', y = 'Sales in Japan in millions'), use_container_width = True)
 
-if type_fig == 'dots with line': st.plotly_chart(px.line(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform', markers = True), use_container_width = True)
+if type_of_sales == 'Other sales in millions': st.plotly_chart(px.bar(data_different_sales, x = 'Genre', y = 'Other sales in millions'), use_container_width = True)
 
-if type_fig == 'dots with different sizes': st.plotly_chart(px.scatter(dynamics_Global_Sales_year, x = 'Years', y = 'Global Sales in millions of dollars', color = 'Platform', size = 'Global Sales in millions of dollars'), use_container_width = True)
+if type_of_sales == 'All sales worldwide in millions': st.plotly_chart(px.bar(data_different_sales, x = 'Genre', y = 'All sales worldwide in millions'), use_container_width = True)
 
 
 
