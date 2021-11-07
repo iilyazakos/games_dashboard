@@ -26,8 +26,11 @@ games = _game[['Rank', 'Name', 'Platform', 'Year',
 # Удаляем нулевые значения по столбцу 'Publisher'
 
 st.set_page_config(layout = "wide")
+st.title('Game sales dashboard')
+st.write('bla bla bla')
+
 with st.container() as row_description:
-    st.markdown("Hello it's my github")
+    st.header("Hello it's my github")
     github = st.button(label = 'Github')
 #open my github
 if github: open_link("https://github.com/iilyazakos")
@@ -126,10 +129,10 @@ with st.container() as row_genre_max_produced:
                                  ('Sales in North America in millions', 'Sales in Europe in millions',
                                   'Sales in Japan in millions', 'Other sales in millions',
                                   'All sales worldwide in millions'))
-        if type_of_sales == 'Sales in north america in millions': st.plotly_chart(
+        if type_of_sales == 'Sales in North America in millions': st.plotly_chart(
             px.bar(data_different_sales, x='Genre', y='Sales in North America in millions', title = 'Sales in different categories'), use_container_width=True)
 
-        if type_of_sales == 'Sales in europe in millions': st.plotly_chart(
+        if type_of_sales == 'Sales in Europe in millions': st.plotly_chart(
             px.bar(data_different_sales, x='Genre', y='Sales in Europe in millions', title = 'Sales in different categories'), use_container_width=True)
 
         if type_of_sales == 'Sales in Japan in millions': st.plotly_chart(
