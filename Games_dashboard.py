@@ -26,9 +26,12 @@ games[['NA_Sales', 'EU_Sales',
                'JP_Sales', 'Other_Sales', 'Global_Sales']] = games[['NA_Sales', 'EU_Sales',
                'JP_Sales', 'Other_Sales', 'Global_Sales']] * 1000000
 
+games.drop(games[games['Year'] == 2020].index, inplace=True)
+games.drop(games[games['Year'] == 2017].index, inplace=True)
+
 st.set_page_config(layout = "wide")
 st.title('Game sales dashboard')
-st.write('')# TODO: write a description
+st.write('Visualization and analytics of games released from 1980 to 2016 by different companies on different platforms')
 
 
 with st.container() as row_description:
@@ -64,8 +67,6 @@ with st.container() as row_game_year:
     with col_year_max:
         game_year_max = games[['Year', 'Name']]
         game_year_max = (game_year_max.groupby(['Year'])['Name'].count()).reset_index()
-        game_year_max.drop(game_year_max[game_year_max['Year'] == 2020].index, inplace = True)
-        game_year_max.drop(game_year_max[game_year_max['Year'] == 2017].index, inplace = True)
         game_year_max.columns = ['Year', 'Number of games']
 
         st.plotly_chart(px.line(game_year_max, x = 'Year',
