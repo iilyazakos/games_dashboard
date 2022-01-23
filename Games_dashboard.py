@@ -100,12 +100,21 @@ with st.container() as col_dynamics_Global_Sales:
 # Which Publisher has the biggest sales
 with st.container() as row_game_platform:
     game_max_public = games[['Publisher', 'Global_Sales']]
-    game_max_public = (game_max_public.groupby(['Publisher'])['Global_Sales'].count()).reset_index()
+    game_max_public = (game_max_public.groupby(['Publisher'])['Global_Sales'].sum().sort_values()).reset_index()
     game_max_public.columns = ['Publisher', 'Global Sales']
+    round_1 = st.select_slider(label = 'Select the minimum number of sales', options = game_max_public['Global Sales'], value = 81530000)
+    game_max_public = game_max_public[game_max_public['Global Sales'] >= round_1]
 
-    st.plotly_chart(px.line(game_max_public, x = 'Global Sales', y = 'Publisher',
+    st.plotly_chart(px.bar(game_max_public, x = 'Global Sales', y = 'Publisher', height = 550,
                             title = 'Which Publisher has the biggest sales'), use_container_width = True)
 
+with st.container() as select_region:
+    one, two_true, three = st.columns(3)
+    with two_true:
+        type_of_sales = st.radio('Select sales region',
+                   ('Sales in North America', 'Sales in Europe',
+                    'Sales in Japan', 'Other sales',
+                     'All sales worldwide'))
 
 # Which genre produced the most games
 with st.container() as row_genre_max_produced:
@@ -127,10 +136,6 @@ with st.container() as row_genre_max_produced:
         data_different_sales.columns = ['Genre', 'Sales in North America', 'Sales in Europe',
                                         'Sales in Japan', 'Other sales',
                                         'All sales worldwide']
-        type_of_sales = st.radio('Select sales region',
-                                 ('Sales in North America', 'Sales in Europe',
-                                  'Sales in Japan', 'Other sales',
-                                  'All sales worldwide'))
         if type_of_sales == 'Sales in North America': st.plotly_chart(
             px.bar(data_different_sales, x = 'Genre', y = 'Sales in North America', title = 'Sales in different categories'), use_container_width = True)
 
