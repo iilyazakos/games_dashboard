@@ -131,7 +131,7 @@ with st.container() as row_genre_max_produced:
 
     with col_different_sales:
         data_different_sales = games[['Genre', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales']]
-        data_different_sales = (data_different_sales.groupby(['Genre'])['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales'].sum()).reset_index()
+        data_different_sales = (data_different_sales.groupby(['Genre'])[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales']].sum()).reset_index()
         data_different_sales.columns = ['Genre', 'Sales in North America', 'Sales in Europe',
                                         'Sales in Japan', 'Other sales',
                                         'All sales worldwide']
